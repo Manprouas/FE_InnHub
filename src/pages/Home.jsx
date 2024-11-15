@@ -8,7 +8,6 @@ import Testimonial from '../component/Testimonial'
 const Home = () => {
   return (
     <div>
-      <Hero/>
       <About/>
       <Menu/>
       <Faq/>

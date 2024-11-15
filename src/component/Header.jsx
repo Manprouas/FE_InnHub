@@ -58,7 +58,7 @@ const Header = () => {
               <span className="text-gray-400">Tambahkan tamu</span>
             </div>
           </div>
-          <button className="w-full p-2 bg-pink-500 text-white rounded-lg mt-4">Cari</button>
+          <button className="w-full p-2 bg-blue-800 text-white rounded-lg mt-4">Cari</button>
         </div>
       </div>
     </header>

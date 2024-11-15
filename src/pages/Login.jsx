@@ -3,6 +3,7 @@ import React from 'react'
 
 const Login = () => {
   return (
+
     <div className="flex flex-col md:flex-row h-screen">
     <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-white p-8">
     <h1 className="text-3xl font-bold mb-6 text-green-700">INN HUB</h1>
