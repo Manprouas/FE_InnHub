@@ -4,8 +4,8 @@ import {GiTheaterCurtains,GiPopcorn,GiTreehouse,GiUfo,GiMountainClimbing,GiWindm
 import DatePicker from 'react-date-picker';
 import { DateRangePicker } from 'react-date-range';
 import 'react-date-picker/dist/DatePicker.css';
-import 'react-date-range/dist/styles.css'; // main style file
-import 'react-date-range/dist/theme/default.css'; // theme css file
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 
 
 const Header = () => {
@@ -25,19 +25,6 @@ const Header = () => {
         }
     ]);
   const [selectedMenu, setSelectedMenu] = useState(null);
-
-  const menuItems = [
-    { id: 1, label: "Pemandangan cantik", icon: <GiTheaterCurtains /> },
-    { id: 2, label: "Ikon Pop", icon: <GiPopcorn /> },
-    { id: 3, label: "Rumah pohon", icon: <GiTreehouse /> },
-    { id: 4, label: "Wow!", icon: <GiUfo /> },
-    { id: 5, label: "Puncak dunia", icon: <GiMountainClimbing /> },
-    { id: 6, label: "Kincir angin", icon: <GiWindmill /> },
-    { id: 7, label: "Kastil", icon: <GiCastle /> },
-    { id: 8, label: "Pulau", icon: <GiIsland /> },
-    { id: 9, label: "Kemah", icon: <GiCampfire /> },
-    { id: 10, label: "Air Terjun", icon: <GiWaterfall /> },
-  ];
 
   const handleMenuClick = (id) => {
     setSelectedMenu(id);
@@ -80,26 +67,6 @@ const handleClosePicker = () => {
         <button className="ml-3 border border-black p-3 rounded-full">
           <IoFilterSharp />
         </button>
-      </div>
-
-      {/* Scrollable Menu */}
-      <div className="mt-6">
-        <ul className="flex space-x-6 overflow-x-scroll whitespace-nowrap overscroll-none scroll-smooth no-scrollbar">
-          {menuItems.map((item) => (
-            <li
-              key={item.id}
-              onClick={() => handleMenuClick(item.id)}
-              className={`flex flex-col items-center justify-center cursor-pointer ${
-                selectedMenu === item.id
-                  ? "text-pink-500 font-semibold"
-                  : "text-gray-500"
-              }`}
-            >
-              <div className="text-2xl">{item.icon}</div>
-              <p className="text-xs mt-2 text-center">{item.label}</p>
-            </li>
-          ))}
-        </ul>
       </div>
 
       {/* Pop-up Menu */}
