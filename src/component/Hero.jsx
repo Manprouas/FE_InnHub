@@ -11,15 +11,15 @@ function Hero() {
                 backgroundPosition: 'bottom',
             }}
         >
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-100 to-blue-200 opacity-75"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-200 opacity-75"></div>
             <div className="relative container mx-auto px-6 text-center">
-                <h1 className="text-4xl md:text-6xl font-bold mb-4 text-yellow-100">
+                <h1 className="text-4xl md:text-6xl font-bold mb-4 text-yellow-200">
                     Welcome to InnHub 
                 </h1>
-                <p className="text-lg md:text-2xl mb-8">
+                <p className="text-lg md:text-2xl mb-8 text-yellow-100">
                     Manage your hotel reservations with ease and efficiency
                 </p>
-                <button className="bg-blue-400 text-white font-bold py-2 px-6 rounded-full hover:bg-blue-500 transition duration-300 shadow-lg">
+                <button className="bg-blue-600 text-white font-bold py-2 px-6 rounded-full hover:bg-blue-500 transition duration-300 shadow-lg">
                     Get Started
                 </button>
             </div>
