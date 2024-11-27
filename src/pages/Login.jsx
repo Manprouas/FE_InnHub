@@ -45,7 +45,7 @@ const Login = () => {
       </div>
       <img
         alt="Sun illustration"
-        className="absolute top-0 left-0 w-40 h-40"
+        className="absolute top-0 left-0 w-42 h-42"
         height="200"
         src="src/assets/2698240 1.png"
         width="200"
