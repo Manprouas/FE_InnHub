@@ -1,23 +1,25 @@
 import { useLocation } from 'react-router-dom';
-import Footer from "../component/Footer";
 import Header from "../component/Header";
+import Footer from "../component/Footer";
 import Routers from "../routes/Routes";
 
 const Layout = () => {
-    const location = useLocation();
+  const location = useLocation();
 
-    // Cek apakah path saat ini adalah "/login" atau "/signup"
-    const isAuthPage = location.pathname === "/Login" || location.pathname === "/Signup";
+  // Periksa apakah pengguna berada di halaman Login atau Signup
+  const isAuthPage = location.pathname === "/login" || location.pathname === "/signup";
 
-    return (
-        <>
-            {!isAuthPage && <Header />}
-            <main>
-                <Routers />
-            </main>
-            {!isAuthPage && <Footer />}
-        </>
-    );
-}
+  return (
+    <>
+      {!isAuthPage && <Header />}
+
+      <main>
+        <Routers />
+      </main>
+
+      {!isAuthPage && <Footer />}
+    </>
+  );
+};
 
 export default Layout;
