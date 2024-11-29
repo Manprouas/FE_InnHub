@@ -3,6 +3,7 @@ import { FaHome, FaExchangeAlt, FaUsers, FaHotel, FaExclamationCircle, FaCog, Fa
 
 import img from '../assets/innhublogo.png';
 import Hero from './Hero';
+import Userlist from './User';
 
 function Menu() {
     const [active, setActive] = useState('dashboard');
@@ -11,7 +12,7 @@ function Menu() {
     const menuItems = [
         { name: "Home", icon: <FaHome />, key: "dashboard" },
         { name: "Transaction", icon: <FaExchangeAlt />, key: "reservations" },
-        { name: "User", icon: <FaUsers />, key: "customers" },
+        { name: "User ", icon: <FaUsers />, key: "customers" },
         { name: "Hotel", icon: <FaHotel />, key: "rooms" },
         { name: "Complaint", icon: <FaExclamationCircle />, key: "reports" },
     ];
@@ -20,7 +21,7 @@ function Menu() {
         <div className="flex h-screen mt-6 bg-white">
             {/* Sidebar */}
             <div className={`relative rounded-3xl bg-white text-black drop-shadow-xl ${isOpen ? 'w-64' : 'w-16'} transition-width duration-300`}>
-                {/* Logo dan Tombol Toggle */}
+                {/* Logo and Toggle Button */}
                 <div className="p-4 text-center text-xl font-bold border-b border-skyblue-600 flex justify-between items-center">
                     {isOpen && (
                         <div className="flex items-center">
@@ -63,7 +64,7 @@ function Menu() {
 
             {/* Main Content */}
             <div className="flex-1 p-6">
-                <Hero />
+                {active === 'customers' ? <Userlist/> : <Hero />}
             </div>
         </div>
     );

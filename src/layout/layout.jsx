@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
-import Header from "../component/Header";
 import Footer from "../component/Footer";
 import Routers from "../routes/Routes";
+import '../App.css'
 
 const Layout = () => {
   const location = useLocation();
@@ -11,8 +11,6 @@ const Layout = () => {
 
   return (
     <>
-      {!isAuthPage && <Header />}
-
       <main>
         <Routers />
       </main>
