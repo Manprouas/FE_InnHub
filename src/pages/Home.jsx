@@ -7,7 +7,7 @@ import Testimonial from '../component/Testimonial'
 
 const Home = () => {
   return (
-    <div>
+    <div >
       <About/>
       <Menu/>
       <Faq/>

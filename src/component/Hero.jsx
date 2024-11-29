@@ -1,29 +1,46 @@
 import React from 'react';
-import heroImage from '../assets/bg hero5.jpg'; // Pastikan jalurnya sesuai dengan struktur folder
+import { FaUser,FaHotel } from "react-icons/fa";
+import { GrTransaction } from "react-icons/gr";
+import { GoReport } from "react-icons/go";
 
 function Hero() {
     return (
-        <section
-            className="relative text-white py-20 mt-3"
-            style={{
-                backgroundImage: `url(${heroImage})`, // Gunakan template literal untuk memasukkan jalur gambar
-                backgroundSize: 'cover',
-                backgroundPosition: 'bottom',
-            }}
-        >
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-300 to-blue-200 opacity-75"></div>
-            <div className="relative container mx-auto px-6 text-center">
-                <h1 className="text-4xl md:text-6xl font-bold mb-4 text-yellow-200">
-                    Welcome to InnHub 
-                </h1>
-                <p className="text-lg md:text-2xl mb-8 text-yellow-100">
-                    Manage your hotel reservations with ease and efficiency
-                </p>
-                <button className="bg-blue-600 text-white font-bold py-2 px-6 rounded-full hover:bg-blue-500 transition duration-300 shadow-lg">
-                    Get Started
-                </button>
-            </div>
-        </section>
+        <div className="p-8">
+                    <div className="grid grid-cols-3 gap-8">
+                        <div className="bg-yellow-100 col-span-2 p-6 rounded-lg shadow-md">
+                            <div className="text-3xl font-bold mb-2">User</div>
+                            <div className="text-green-600 text-2xl font-bold">+3</div>
+                            <div className="text-gray-600">User Today</div>
+                            <div className="mt-4 text-4xl flex justify-end">
+                            <FaUser />
+                            </div>
+                        </div>
+                        <div className="bg-white p-6 rounded-lg shadow-md">
+                            <div className="text-xl font-bold mb-2">Transaction</div>
+                            <div className="text-green-600 text-2xl font-bold">+10</div>
+                            <div className="text-gray-600">Transaction Today</div>
+                            <div className="mt-4 text-4xl flex justify-end">
+                            <GrTransaction />
+                            </div>
+                        </div>
+                        <div className="bg-white p-6 rounded-lg shadow-md">
+                            <div className="text-xl font-bold mb-2">Complaint</div>
+                            <div className="text-red-600 text-2xl font-bold">+2</div>
+                            <div className="text-gray-600">Complaint Today</div>
+                            <div className="mt-4 text-4xl flex justify-end">
+                            <GoReport />
+                            </div>
+                        </div>
+                        <div className="bg-yellow-100 p-6 rounded-lg col-span-2 shadow-md">
+                            <div className="text-xl font-bold mb-2">Hotel</div>
+                            <div className="text-green-600 text-2xl font-bold">+3</div>
+                            <div className="text-gray-600">Hotel Today</div>
+                            <div className="mt-4 text-4xl flex justify-end">
+                            <FaHotel />
+                            </div>
+                        </div>
+                    </div>
+                </div>
     );
 }
 

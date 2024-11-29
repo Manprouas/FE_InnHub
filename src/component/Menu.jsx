@@ -25,7 +25,7 @@ function Menu() {
                     {isOpen && (
                         <div className="flex items-center">
                             <img src={img} alt="InnHub Logo" className="w-8 h-8 mr-2" />
-                            <span className="text-blue-700 drop-shadow-2xl">InnHub</span>
+                            <span className="text-slate-950700 drop-shadow-2xl">InnHub</span>
                         </div>
                     )}
                     <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
@@ -38,7 +38,7 @@ function Menu() {
                     {menuItems.map(item => (
                         <li
                             key={item.key}
-                            className={`left-0 right-0 mx-2 p-4 cursor-pointer flex items-center rounded-lg font-semibold ${
+                            className={`left-0 right-0 mx-2 my-2 p-4 cursor-pointer flex items-center rounded-lg font-semibold ${
                                 active === item.key ? 'bg-button text-black' : 'hover:bg-button hover:text-black'
                             } transition-colors duration-200`}
                             onClick={() => setActive(item.key)}
