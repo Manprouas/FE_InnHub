@@ -63,7 +63,7 @@ function Menu() {
             </div>
 
             {/* Main Content */}
-            <div className="flex-1 p-6">
+            <div className="flex-1 p-6 bg-[#4A628A] ">
                 {active === 'customers' ? <Userlist/> : <Hero />}
             </div>
         </div>
