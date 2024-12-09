@@ -5,6 +5,7 @@ import img from '../assets/innhublogo.png';
 import Hero from './Hero';
 import UserList from './User'; // Pastikan nama import benar
 import HotelList from '../component/Hotels/HotelList';
+import ReservationList from './ReservationList';
 
 function Menu() {
     const [active, setActive] = useState('dashboard');
@@ -13,24 +14,26 @@ function Menu() {
     const menuItems = [
         { name: "Home", icon: <FaHome />, key: "dashboard" },
         { name: "Transaction", icon: <FaExchangeAlt />, key: "reservations" },
-        { name: "User", icon: <FaUsers />, key: "customers" }, // Pastikan key sesuai
-        { name: "Hotel", icon: <FaHotel />, key: "hotels" }, // Ganti key menjadi 'hotels'
+        { name: "User", icon: <FaUsers />, key: "customers" },
+        { name: "Hotel", icon: <FaHotel />, key: "hotels" },
         { name: "Complaint", icon: <FaExclamationCircle />, key: "reports" },
-    ];
-
-    // Fungsi untuk render konten berdasarkan menu aktif
-    const renderContent = () => {
-        switch(active) {
-            case 'dashboard':
-                return <Hero />;
-            case 'customers':
-                return <UserList />;
-            case 'hotels':
-                return <HotelList />;
-            default:
-                return <Hero />;
+      ];
+      
+      // Tambahkan di fungsi renderContent
+      const renderContent = () => {
+        switch (active) {
+          case 'dashboard':
+            return <Hero />;
+          case 'customers':
+            return <UserList />;
+          case 'hotels':
+            return <HotelList />;
+          case 'reservations': // Tambahkan case baru
+            return <ReservationList />;
+          default:
+            return <Hero />;
         }
-    };
+      };
 
     return (
         <div className="flex h-screen mt-6 bg-white">
