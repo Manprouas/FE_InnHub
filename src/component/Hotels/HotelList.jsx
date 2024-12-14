@@ -7,6 +7,7 @@ function HotelList() {
     const [error, setError] = useState(null);
     const [selectedHotel, setSelectedHotel] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [rooms, setRooms] = useState([]); // State to store rooms for the selected hotel
     const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
@@ -24,10 +25,31 @@ function HotelList() {
         }
     };
 
+    const fetchRooms = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3000/rooms`);
+            setRooms(response.data.data);
+        } catch (err) {
+            setError('Gagal memuat data kamar');
+        }
+    };
+
     const handleRowClick = (hotel) => {
         setSelectedHotel(hotel);
         setIsModalOpen(true);
         setIsEditing(false);
+        
+        // Fetch rooms for the selected hotel
+        fetchRoomsForHotel(hotel._id);
+    };
+
+    const fetchRoomsForHotel = async (hotelId) => {
+        try {
+            const response = await axios.get(`http://localhost:3000/hotels/${hotelId}/rooms`);
+            setRooms(response.data.data);
+        } catch (err) {
+            console.error("Error fetching rooms:", err);
+        }
     };
 
     const handleAddHotel = () => {
@@ -48,14 +70,12 @@ function HotelList() {
     const handleSaveHotel = async () => {
         try {
             if (selectedHotel._id) {
-                // Update existing hotel
                 const response = await axios.put(`http://localhost:3000/hotels/${selectedHotel._id}`, selectedHotel);
                 setHotels(hotels.map(hotel => 
                     hotel._id === selectedHotel._id ? response.data.data : hotel
                 ));
             } else {
-                // Add new hotel
-                const response = await axios.post('http://localhost:3000/hotels', selectedHotel);
+                const response = await axios.post('http://localhost:3000/hotels/create', selectedHotel);
                 setHotels([...hotels, response.data.data]);
             }
             setIsModalOpen(false);
@@ -87,6 +107,10 @@ function HotelList() {
         }));
     };
 
+    const handleRoomDetailsClick = (hotelId) => {
+        fetchRooms(hotelId); // Fetch rooms for the selected hotel
+    };
+
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-full">
@@ -115,14 +139,14 @@ function HotelList() {
 
             <table className="w-full">
                 <thead>
-                    <tr className="bg-gray-200">
+                    <tr>
                         <th className="p-2">Nama Hotel</th>
                         <th className="p-2">Alamat</th>
                         <th className="p-2">Email</th>
                         <th className="p-2">Telepon</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className='bg-gray-200'>
                     {hotels.map((hotel) => (
                         <tr 
                             key={hotel._id} 
@@ -141,7 +165,7 @@ function HotelList() {
             {/* Modal untuk Detail/Edit Hotel */}
             {isModalOpen && selectedHotel && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                    <div className="bg-white p-6 rounded-lg w-96 relative">
+                    <div className="bg-white p-6 rounded-lg w-full max-w-lg relative">
                         <button 
                             onClick={() => setIsModalOpen(false)}
                             className="absolute top-4 right-4 text-gray-600 hover:text-gray-900"
@@ -198,10 +222,43 @@ function HotelList() {
                                 <p><strong>Alamat:</strong> {selectedHotel.address}</p>
                                 <p><strong>Email:</strong> {selectedHotel.email}</p>
                                 <p><strong>Telepon:</strong> {selectedHotel.phone}</p>
+                                
+                                {/* Display Room Details in the Modal */}
+                                <button 
+                                    onClick={() => handleRoomDetailsClick(selectedHotel._id)}
+                                    className="bg-slate-500 text-white px-4 py-2 rounded hover:bg-slate-600"
+                                >
+                                    Details Room
+                                </button>
+
+                                <div className="mt-4">
+                                    {rooms.length > 0 ? (
+                                        <table className="w-full">
+                                            <thead>
+                                                <tr>
+                                                    <th className="p-2">Jenis Kamar</th>
+                                                    <th className="p-2">Harga</th>
+                                                    <th className="p-2">Alamat</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {rooms.map((room) => (
+                                                    <tr key={room._id} className="border-b hover:bg-gray-100">
+                                                        <td className="p-2">{room.roomtype}</td>
+                                                        <td className="p-2">Rp {room.price.toLocaleString()}</td>
+                                                        <td className="p-2">{room.address}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    ) : (
+                                        <p>Tidak ada kamar yang tersedia.</p>
+                                    )}
+                                </div>
                             </div>
                         )}
 
-                        <div className="flex justify end space-x-2 mt-4">
+                        <div className="flex justify-end space-x-2 mt-4">
                             {isEditing ? (
                                 <>
                                     <button 

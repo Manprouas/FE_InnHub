@@ -3,8 +3,9 @@ import { FaHome, FaExchangeAlt, FaUsers, FaHotel, FaExclamationCircle, FaCog, Fa
 
 import img from '../assets/innhublogo.png';
 import Hero from './Hero';
-import UserList from './User'; // Pastikan nama import benar
+import UserList from './User';
 import HotelList from '../component/Hotels/HotelList';
+import Admin from './admin';
 
 function Menu() {
     const [active, setActive] = useState('dashboard');
@@ -13,12 +14,11 @@ function Menu() {
     const menuItems = [
         { name: "Home", icon: <FaHome />, key: "dashboard" },
         { name: "Transaction", icon: <FaExchangeAlt />, key: "reservations" },
-        { name: "User", icon: <FaUsers />, key: "customers" }, // Pastikan key sesuai
-        { name: "Hotel", icon: <FaHotel />, key: "hotels" }, // Ganti key menjadi 'hotels'
+        { name: "User", icon: <FaUsers />, key: "customers" },
+        { name: "Hotel", icon: <FaHotel />, key: "hotels" },
         { name: "Complaint", icon: <FaExclamationCircle />, key: "reports" },
     ];
 
-    // Fungsi untuk render konten berdasarkan menu aktif
     const renderContent = () => {
         switch(active) {
             case 'dashboard':
@@ -27,21 +27,22 @@ function Menu() {
                 return <UserList />;
             case 'hotels':
                 return <HotelList />;
+            case 'admin':
+                return <Admin />;
             default:
                 return <Hero />;
         }
     };
 
     return (
-        <div className="flex h-screen mt-6 bg-white">
+        <div className="flex h-screen bg-white overflow-hidden">
             {/* Sidebar */}
-            <div className={`relative rounded-3xl bg-white text-black drop-shadow-xl ${isOpen ? 'w-64' : 'w-16'} transition-width duration-300`}>
-                {/* Logo and Toggle Button */}
+            <div className={`relative bg-white text-black drop-shadow-xl ${isOpen ? 'w-64' : 'w-16'} transition-width duration-300`}>
                 <div className="p-4 text-center text-xl font-bold border-b border-skyblue-600 flex justify-between items-center">
                     {isOpen && (
                         <div className="flex items-center">
                             <img src={img} alt="InnHub Logo" className="w-8 h-8 mr-2" />
-                            <span className="text-slate-950700 drop-shadow-2xl">InnHub</span>
+                            <span className="text-slate-900">InnHub</span>
                         </div>
                     )}
                     <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
@@ -49,12 +50,11 @@ function Menu() {
                     </button>
                 </div>
 
-                {/* Menu Items */}
                 <ul className="mt-4">
                     {menuItems.map(item => (
                         <li
                             key={item.key}
-                            className={`left-0 right-0 mx-2 my-2 p-4 cursor-pointer flex items-center rounded-lg font-semibold ${
+                            className={`mx-2 my-2 p-4 cursor-pointer flex items-center rounded-lg font-semibold ${
                                 active === item.key ? 'bg-button text-black' : 'hover:bg-button hover:text-black'
                             } transition-colors duration-200`}
                             onClick={() => setActive(item.key)}
@@ -65,10 +65,9 @@ function Menu() {
                     ))}
                 </ul>
 
-                {/* Admin Button */}
                 <div
                     className={`absolute bottom-4 left-0 right-0 mx-2 flex items-center p-4 rounded-lg font-semibold ${
-                        active === 'admin' ? 'bg-blue-700 text-white' : 'bg-gray-200 hover:bg-blue-700 hover:text-white'
+                        active === 'admin' ? 'bg-[#4A628A] text-white' : 'bg-[#4A628A] hover:bg-[#FFD900] text-white hover:text-white'
                     } transition-colors duration-200 cursor-pointer`}
                     onClick={() => setActive('admin')}
                 >
@@ -78,7 +77,7 @@ function Menu() {
             </div>
 
             {/* Main Content */}
-            <div className="flex-1 p-6 bg-[#4A628A] overflow-auto">
+            <div className="flex-1 p-6 bg-[#4A628A]">
                 {renderContent()}
             </div>
         </div>
