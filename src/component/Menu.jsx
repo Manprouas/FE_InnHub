@@ -6,6 +6,7 @@ import Hero from './Hero';
 import UserList from './User';
 import HotelList from '../component/Hotels/HotelList';
 import Admin from './admin';
+import Complaint from './complaint';
 
 function Menu() {
     const [active, setActive] = useState('dashboard');
@@ -16,7 +17,7 @@ function Menu() {
         { name: "Transaction", icon: <FaExchangeAlt />, key: "reservations" },
         { name: "User", icon: <FaUsers />, key: "customers" },
         { name: "Hotel", icon: <FaHotel />, key: "hotels" },
-        { name: "Complaint", icon: <FaExclamationCircle />, key: "reports" },
+        { name: "Complaint", icon: <FaExclamationCircle />, key: "complaint" },
     ];
 
     const renderContent = () => {
@@ -29,6 +30,8 @@ function Menu() {
                 return <HotelList />;
             case 'admin':
                 return <Admin />;
+            case 'complaint':
+                return <Complaint />;
             default:
                 return <Hero />;
         }
