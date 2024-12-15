@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { API_URL } from "../../../connection";
 
+// Async thunk untuk login
 export const login = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
@@ -9,8 +10,8 @@ export const login = createAsyncThunk(
       const response = await axios.post(`${API_URL}/users/login`, {
         email,
         password,
-      }); // Sesuaikan endpoint API Anda
-      return response.data; // Mengembalikan data token
+      });
+      return response.data; // Mengembalikan data token dan user info
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Login failed. Please try again."
@@ -19,7 +20,28 @@ export const login = createAsyncThunk(
   }
 );
 
-// Async thunk untuk signup (opsional, bisa dilewati jika tidak diperlukan)
+// Async thunk untuk mengambil profil pengguna setelah login
+export const getProfile = createAsyncThunk(
+  "auth/getProfile",
+  async (_, { getState, rejectWithValue }) => {
+    const token = getState().auth.userToken; // Ambil token dari state
+
+    try {
+      const response = await axios.get(`${API_URL}/users/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data; // Mengembalikan data profil pengguna
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch profile."
+      );
+    }
+  }
+);
+
+// Async thunk untuk signup (opsional)
 export const signup = createAsyncThunk(
   "auth/signup",
   async ({ username, email, password, phone }, { rejectWithValue }) => {
@@ -46,13 +68,15 @@ const authSlice = createSlice({
     error: null,
     isLoggedIn: false,
     userToken: null,
-    userInfo: null, // Tambahkan jika data user diperlukan
+    userInfo: null, // Data pengguna
+    isAuthenticated: false, // Status autentikasi
   },
   reducers: {
     logout(state) {
       state.isLoggedIn = false;
       state.userToken = null;
       state.userInfo = null;
+      state.isAuthenticated = false;
     },
   },
   extraReducers: (builder) => {
@@ -67,12 +91,26 @@ const authSlice = createSlice({
         state.isLoggedIn = true;
         state.userToken = action.payload.token; // Ambil token dari response
         state.userInfo = action.payload.user; // Ambil data user jika tersedia
+        state.isAuthenticated = true;
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      // Signup reducers (opsional)
+      // Get Profile reducers
+      .addCase(getProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getProfile.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userInfo = action.payload; // Simpan profil pengguna yang diterima
+      })
+      .addCase(getProfile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // Signup reducers
       .addCase(signup.pending, (state) => {
         state.loading = true;
         state.error = null;
