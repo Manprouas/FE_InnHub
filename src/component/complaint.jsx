@@ -109,8 +109,8 @@ function Complaint() {
     }
 
     return (
-        <div className="bg-gray-100 p-6 h-screen overflow-auto">
-            <h1 className="text-2xl font-bold mb-4">List of Complaints</h1>
+        <div className= "p-6 h-screen overflow-auto">
+            <h1 className="text-2xl text-white font-bold mb-4">List of Complaints</h1>
             {complaints.length === 0 ? (
                 <p>No complaints found.</p>
             ) : (
@@ -136,12 +136,16 @@ function Complaint() {
                                     {complaint.description}
                                 </p>
                                 <p>
-                                    <span className="font-bold">User ID:</span>{" "}
-                                    {complaint.userID?.name || "Unknown"}
+                                    <span className="font-bold">User:</span>{" "}
+                                    {complaint.userID?.email || "Unknown"}
                                 </p>
                                 <p>
-                                    <span className="font-bold">Hotel ID:</span>{" "}
-                                    {complaint.hotelID?.name || "Unknown"}
+                                    <span className="font-bold">Hotel:</span>{" "}
+                                    {complaint.hotelID?.hotelname || "Unknown"}
+                                </p>
+                                <p>
+                                    <span className="font-bold">Room :</span>{" "}
+                                    {complaint.roomID?.roomtype || "Unknown"}
                                 </p>
                             </div>
                             {complaint.photo && (
