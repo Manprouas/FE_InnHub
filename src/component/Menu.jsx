@@ -7,6 +7,7 @@ import UserList from './User';
 import HotelList from '../component/Hotels/HotelList';
 import Admin from './admin';
 import Complaint from './complaint';
+import OrderList from './Transaction';
 
 function Menu() {
     const [active, setActive] = useState('dashboard');
@@ -26,6 +27,8 @@ function Menu() {
                 return <Hero />;
             case 'customers':
                 return <UserList />;
+            case 'reservations':
+                return <OrderList />
             case 'hotels':
                 return <HotelList />;
             case 'admin':
