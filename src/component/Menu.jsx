@@ -1,39 +1,39 @@
 import React, { useState } from 'react';
-import { FaHome, FaExchangeAlt, FaUsers, FaHotel, FaExclamationCircle, FaCog, FaBars } from "react-icons/fa";
+import { FaHome, FaExchangeAlt, FaUsers, FaHotel, FaExclamationCircle, FaCog, FaBars, FaChevronDown } from "react-icons/fa";
 
 import img from '../assets/innhublogo.png';
 import Hero from './Hero';
-import UserList from './User'; // Pastikan nama import benar
 import HotelList from '../component/Hotels/HotelList';
-import ReservationList from './ReservationList';
+import BookingHistory from './user/riwayatBooking'; // Komponen untuk riwayat booking
+import CustomerData from './user/User'; // Komponen untuk data pelanggan
 
 function Menu() {
     const [active, setActive] = useState('dashboard');
     const [isOpen, setIsOpen] = useState(true);
+    const [userDropdown, setUserDropdown] = useState(false); // State untuk toggle dropdown User
 
     const menuItems = [
         { name: "Home", icon: <FaHome />, key: "dashboard" },
         { name: "Transaction", icon: <FaExchangeAlt />, key: "reservations" },
-        { name: "User", icon: <FaUsers />, key: "customers" },
         { name: "Hotel", icon: <FaHotel />, key: "hotels" },
         { name: "Complaint", icon: <FaExclamationCircle />, key: "reports" },
-      ];
-      
-      // Tambahkan di fungsi renderContent
-      const renderContent = () => {
+    ];
+
+    // Fungsi untuk merender konten berdasarkan menu aktif
+    const renderContent = () => {
         switch (active) {
-          case 'dashboard':
-            return <Hero />;
-          case 'customers':
-            return <UserList />;
-          case 'hotels':
-            return <HotelList />;
-          case 'reservations': // Tambahkan case baru
-            return <ReservationList />;
-          default:
-            return <Hero />;
+            case 'dashboard':
+                return <Hero />;
+            case 'customers-data':
+                return <CustomerData />;
+            case 'customers-history':
+                return <BookingHistory />;
+            case 'hotels':
+                return <HotelList />;
+            default:
+                return <Hero />;
         }
-      };
+    };
 
     return (
         <div className="flex h-screen mt-6 bg-white">
@@ -66,6 +66,40 @@ function Menu() {
                             {isOpen && item.name}
                         </li>
                     ))}
+
+                    {/* User Menu with Dropdown */}
+                    <li
+                        className="left-0 right-0 mx-2 my-2 p-4 cursor-pointer flex items-center rounded-lg font-semibold hover:bg-button hover:text-black transition-colors duration-200"
+                        onClick={() => setUserDropdown(!userDropdown)}
+                    >
+                        <div className={`${isOpen ? 'mr-3' : 'mx-auto'}`}><FaUsers /></div>
+                        {isOpen && <span>User</span>}
+                        {isOpen && (
+                            <FaChevronDown className={`ml-auto transition-transform ${userDropdown ? 'rotate-180' : 'rotate-0'}`} />
+                        )}
+                    </li>
+
+                    {/* Dropdown Items */}
+                    {userDropdown && isOpen && (
+                        <ul className="ml-6">
+                            <li
+                                className={`p-2 cursor-pointer flex items-center rounded-lg font-semibold hover:bg-gray-200 ${
+                                    active === 'customers-data' ? 'bg-gray-200' : ''
+                                }`}
+                                onClick={() => setActive('customers-data')}
+                            >
+                                Data Pelanggan
+                            </li>
+                            <li
+                                className={`p-2 cursor-pointer flex items-center rounded-lg font-semibold hover:bg-gray-200 ${
+                                    active === 'customers-history' ? 'bg-gray-200' : ''
+                                }`}
+                                onClick={() => setActive('customers-history')}
+                            >
+                                Riwayat Booking
+                            </li>
+                        </ul>
+                    )}
                 </ul>
 
                 {/* Admin Button */}

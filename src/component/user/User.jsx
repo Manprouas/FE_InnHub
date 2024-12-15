@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { API_URL } from "../../connection";
+import { API_URL } from "../../../connection";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
