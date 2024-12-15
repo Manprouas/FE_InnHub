@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { API_URL } from "../../../connection";
+import { API_URL } from "../../../connection"; // Sesuaikan dengan path API Anda
 
+// Async Thunk: Login
 export const login = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
@@ -9,8 +10,8 @@ export const login = createAsyncThunk(
       const response = await axios.post(`${API_URL}/users/login`, {
         email,
         password,
-      }); // Sesuaikan endpoint API Anda
-      return response.data; // Mengembalikan data token
+      });
+      return response.data; // Mengembalikan token dan data user
     } catch (error) {
       return rejectWithValue(
         error.response?.data?.message || "Login failed. Please try again."
@@ -19,7 +20,7 @@ export const login = createAsyncThunk(
   }
 );
 
-// Async thunk untuk signup (opsional, bisa dilewati jika tidak diperlukan)
+// Async Thunk: Signup (opsional, jika dibutuhkan)
 export const signup = createAsyncThunk(
   "auth/signup",
   async ({ username, email, password, phone }, { rejectWithValue }) => {
@@ -39,20 +40,32 @@ export const signup = createAsyncThunk(
   }
 );
 
+// Auth Slice
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     loading: false,
     error: null,
     isLoggedIn: false,
-    userToken: null,
-    userInfo: null, // Tambahkan jika data user diperlukan
+    userToken: null, // Token pengguna
+    userInfo: null, // Detail pengguna
   },
   reducers: {
     logout(state) {
       state.isLoggedIn = false;
       state.userToken = null;
       state.userInfo = null;
+      localStorage.removeItem("userToken"); // Hapus token dari localStorage
+    },
+    loadUserFromStorage(state) {
+      const userToken = localStorage.getItem("userToken");
+      const userInfo = localStorage.getItem("userInfo");
+
+      if (userToken && userInfo) {
+        state.isLoggedIn = true;
+        state.userToken = userToken;
+        state.userInfo = JSON.parse(userInfo);
+      }
     },
   },
   extraReducers: (builder) => {
@@ -65,8 +78,12 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
         state.isLoggedIn = true;
-        state.userToken = action.payload.token; // Ambil token dari response
-        state.userInfo = action.payload.user; // Ambil data user jika tersedia
+        state.userToken = action.payload.token; // Token dari API
+        state.userInfo = action.payload.user; // Detail pengguna dari API
+
+        // Simpan token dan detail user ke localStorage
+        localStorage.setItem("userToken", action.payload.token);
+        localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
@@ -87,6 +104,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
+// Export reducers
+export const { logout, loadUserFromStorage } = authSlice.actions;
 
 export default authSlice.reducer;
