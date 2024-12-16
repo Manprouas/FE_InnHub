@@ -11,6 +11,8 @@ export const login = createAsyncThunk(
         email,
         password,
       });
+      // Simpan token di localStorage
+      localStorage.setItem("token", response.data.token);
       return response.data; // Mengembalikan data token dan user info
     } catch (error) {
       return rejectWithValue(
@@ -41,7 +43,7 @@ export const getProfile = createAsyncThunk(
   }
 );
 
-// Async thunk untuk signup (opsional)
+// Async thunk untuk signup
 export const signup = createAsyncThunk(
   "auth/signup",
   async ({ username, email, password, phone }, { rejectWithValue }) => {
@@ -66,10 +68,10 @@ const authSlice = createSlice({
   initialState: {
     loading: false,
     error: null,
-    isLoggedIn: false,
-    userToken: null,
+    isLoggedIn: !!localStorage.getItem("token"), // Cek token di localStorage
+    userToken: localStorage.getItem("token"), // Ambil token dari localStorage
     userInfo: null, // Data pengguna
-    isAuthenticated: false, // Status autentikasi
+    isAuthenticated: !!localStorage.getItem("token"), // Status autentikasi
   },
   reducers: {
     logout(state) {
@@ -77,6 +79,9 @@ const authSlice = createSlice({
       state.userToken = null;
       state.userInfo = null;
       state.isAuthenticated = false;
+
+      // Hapus token dari localStorage
+      localStorage.removeItem("token");
     },
   },
   extraReducers: (builder) => {
